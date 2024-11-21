@@ -1,0 +1,8 @@
+#.gitignore
+**__pycache__
+.idea
+#dfrsite/.env
+dfrsite/venv/
+**.pytest_cache
+
+dfrsite/static

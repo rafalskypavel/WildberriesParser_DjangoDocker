@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product API Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1, h2 {
+            color: #0056b3;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label, button {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            padding: 5px;
+            width: 300px;
+            max-width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #004494;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product API Form</h1>
+
+    <!-- Форма для GET-запроса -->
+    <h2>Получить список продуктов (GET)</h2>
+    <form action="{% url 'product-list' %}" method="get" target="_blank">
+        <button type="submit">Получить продукты</button>
+    </form>
+
+    <hr>
+
+    <!-- Форма для POST-запроса -->
+    <h2>Добавить новый продукт (POST)</h2>
+    <form id="postForm">
+        <label for="article">Артикул:</label>
+        <input type="text" id="article" name="article" required>
+        <button type="submit">Добавить продукт</button>
+    </form>
+
+    <!-- Сообщение об успехе или ошибке -->
+    <div id="responseMessage" class="message" style="display: none;"></div>
+
+    <script>
+        document.getElementById('postForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const article = document.getElementById('article').value;
+            const responseMessage = document.getElementById('responseMessage');
+
+            fetch("{% url 'product-add' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ article })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Ошибка сети или сервера');
+                }
+                return response.json();
+            })
+            .then(data => {
+                responseMessage.style.display = 'block';
+                responseMessage.className = 'message success';
+                responseMessage.textContent = `Успех: ${JSON.stringify(data)}`;
+            })
+            .catch(error => {
+                responseMessage.style.display = 'block';
+                responseMessage.className = 'message error';
+                responseMessage.textContent = `Ошибка: ${error.message}`;
+            });
+        });
+    </script>
+</body>
+</html>
