@@ -26,6 +26,9 @@
 
 ---
 
+![Пример формы](image.jpg)
+
+
 ## Ресурсы
 
 - **Видео**: [Docker Compose Demo](https://www.youtube.com/watch?v=0uLDObuutFs&t=1007s)
