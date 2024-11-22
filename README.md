@@ -26,8 +26,10 @@
 
 ---
 
-![Пример формы](image.jpg)
+Переход по адресу: http://localhost/api/v1/products/form/
 
+![Пример формы](Examples/form.png)
+![Пример формы](Examples/products.png)
 
 ## Ресурсы
 
